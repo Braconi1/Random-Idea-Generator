@@ -1,4 +1,4 @@
-package com.example.myapplication.screens.login.components
+package com.example.myapplication.presentation.uii.screens.login.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button

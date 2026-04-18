@@ -1,4 +1,4 @@
-package com.example.myapplication.screens.home.components
+package com.example.myapplication.presentation.uii.screens.home.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

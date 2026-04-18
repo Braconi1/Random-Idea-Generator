@@ -1,4 +1,4 @@
-package com.example.myapplication.screens.about.components
+package com.example.myapplication.presentation.uii.screens.about.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
