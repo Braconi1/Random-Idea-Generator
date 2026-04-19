@@ -101,7 +101,7 @@ fun IdeaScreen(
             if (showSuccessMsg) {
                 Spacer(modifier = Modifier.height(AppDimensions.spacingM))
                 Text(
-                    text = "Idea submitted successfully! 🎉",
+                    text = "Idea submitted successfully",
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.bodyMedium
                 )
