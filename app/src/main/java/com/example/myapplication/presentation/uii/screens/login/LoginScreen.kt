@@ -1,15 +1,15 @@
-package com.example.myapplication.screens.login
+package com.example.myapplication.presentation.uii.screens.login
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.example.myapplication.screens.login.components.EmailField
-import com.example.myapplication.screens.login.components.LoginButton
-import com.example.myapplication.screens.login.components.LoginHeader
-import com.example.myapplication.screens.login.components.PasswordField
+import com.example.myapplication.presentation.AppDimensions
+import com.example.myapplication.presentation.uii.screens.login.components.EmailField
+import com.example.myapplication.presentation.uii.screens.login.components.LoginButton
+import com.example.myapplication.presentation.uii.screens.login.components.LoginHeader
+import com.example.myapplication.presentation.uii.screens.login.components.PasswordField
 
 @Composable
 fun LoginScreen(
@@ -42,31 +42,21 @@ fun LoginScreen(
     }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(24.dp),
+        modifier = modifier.fillMaxSize().padding(AppDimensions.spacingMassive),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LoginHeader()
 
-        Spacer(modifier = Modifier.height(27.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingGiant))
 
-        EmailField(
-            value = email,
-            onValueChange = { email = it },
-            isError = showEmailError
-        )
+        EmailField(value = email, onValueChange = { email = it }, isError = showEmailError)
 
-        Spacer(modifier = Modifier.height(13.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingXXL))
 
-        PasswordField(
-            value = password,
-            onValueChange = { password = it },
-            isError = showPasswordError
-        )
+        PasswordField(value = password, onValueChange = { password = it }, isError = showPasswordError)
 
-        Spacer(modifier = Modifier.height(7.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingS))
 
         if (submitted && !canSubmit) {
             Text(
@@ -76,19 +66,17 @@ fun LoginScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(14.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingXXL))
 
         LoginButton(
             enabled = canSubmit,
             onClick = {
                 submitted = true
-                if (canSubmit) {
-                    onLoginSuccess()
-                }
+                if (canSubmit) onLoginSuccess()
             }
         )
 
-        Spacer(modifier = Modifier.height(18.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingHuge))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(

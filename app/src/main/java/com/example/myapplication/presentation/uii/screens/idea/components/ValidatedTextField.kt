@@ -1,4 +1,4 @@
-package com.example.myapplication.screens.idea.components
+package com.example.myapplication.presentation.uii.screens.idea.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*

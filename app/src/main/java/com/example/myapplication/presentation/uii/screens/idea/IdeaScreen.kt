@@ -1,4 +1,4 @@
-package com.example.myapplication.screens.idea
+package com.example.myapplication.presentation.uii.screens.idea
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -7,11 +7,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.myapplication.screens.IdeaViewModel
-import com.example.myapplication.screens.home.components.SectionTitle
-import com.example.myapplication.screens.idea.components.ValidatedTextField
+import com.example.myapplication.presentation.AppDimensions
+import com.example.myapplication.presentation.viewModel.IdeaViewModel
+import com.example.myapplication.presentation.uii.screens.home.components.SectionTitle
+import com.example.myapplication.presentation.uii.screens.idea.components.ValidatedTextField
 
 @Composable
 fun IdeaScreen(
@@ -39,17 +38,13 @@ fun IdeaScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(horizontal = AppDimensions.contentPadding, vertical = AppDimensions.spacingM)
         ) {
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(AppDimensions.spacingL))
 
-            Text(
-                text = "Submit Your Idea",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Text(text = "Submit Your Idea", fontSize = AppDimensions.fontXXL, fontWeight = FontWeight.Bold)
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(AppDimensions.spacingS))
 
             Text(
                 text = "Fill in all fields to add a new idea to the list.",
@@ -57,11 +52,11 @@ fun IdeaScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(AppDimensions.spacingHuge))
 
             SectionTitle(text = "Idea Details")
 
-            Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(AppDimensions.spacingXXXL))
 
             ValidatedTextField(
                 value = title,
@@ -71,7 +66,7 @@ fun IdeaScreen(
                 isError = submitError != null && title.isBlank()
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(AppDimensions.spacingL))
 
             ValidatedTextField(
                 value = descText,
@@ -83,7 +78,7 @@ fun IdeaScreen(
                 minLines = 3
             )
 
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.height(AppDimensions.spacingXXL))
 
             ValidatedTextField(
                 value = catText,
@@ -93,7 +88,7 @@ fun IdeaScreen(
                 isError = submitError != null && catText.isBlank()
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(AppDimensions.spacingL))
 
             if (submitError != null) {
                 Text(
@@ -104,15 +99,15 @@ fun IdeaScreen(
             }
 
             if (showSuccessMsg) {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(AppDimensions.spacingM))
                 Text(
-                    text = "Idea submitted successfully! 🎉",
+                    text = "Idea submitted successfully",
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
 
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(AppDimensions.spacingMassive))
 
             var isFormValid = false
             if (title.isNotBlank()) {
@@ -126,15 +121,13 @@ fun IdeaScreen(
             Button(
                 onClick = { viewModel.submitIdea() },
                 enabled = isFormValid,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp)
+                modifier = Modifier.fillMaxWidth().height(AppDimensions.buttonHeight)
             ) {
-                Text("Submit Idea", fontSize = 16.sp)
+                Text("Submit Idea", fontSize = AppDimensions.fontMedium)
             }
 
             if (!isFormValid) {
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(AppDimensions.XL))
                 Text(
                     text = "Please fill in all fields to enable submit.",
                     style = MaterialTheme.typography.bodySmall,
@@ -142,7 +135,7 @@ fun IdeaScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(AppDimensions.spacingM))
         }
     }
 }

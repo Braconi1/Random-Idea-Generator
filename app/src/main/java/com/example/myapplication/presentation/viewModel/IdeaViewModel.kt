@@ -1,17 +1,9 @@
-package com.example.myapplication.screens
+package com.example.myapplication.presentation.viewModel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-
-data class Idea(
-    val id: Int,
-    val title: String,
-    val description: String,
-    val category: String = ""
-)
+import com.example.myapplication.model.Idea
+import com.example.myapplication.model.hardcodedIdeas
 
 class IdeaViewModel : ViewModel() {
     val currentIdea = MutableStateFlow<Idea?>(null)
@@ -26,19 +18,7 @@ class IdeaViewModel : ViewModel() {
     val ideas = MutableStateFlow<List<Idea>>(emptyList())
     val favorites = MutableStateFlow<List<Idea>>(emptyList())
 
-    //LISTA IDEJA ZA DODAT JOS verzija 1.0
-    private val ideaSuggestions = listOf(
-        Idea(1, "Learn to juggle", "Start with 3 balls and practice daily", "Activities"),
-        Idea(2, "Meditate for 10 minutes", "Find a quiet spot and focus on breathing", "Health"),
-        Idea(3, "Read a book", "Choose a genre you enjoy and read for 30 minutes", "Learning"),
-        Idea(4, "Learn a new language", "Use Duolingo for 15 minutes daily", "Learning"),
-        Idea(5, "Go for a walk", "Enjoy nature and get some fresh air", "Health"),
-        Idea(6, "Cook a new recipe", "Try something you've never made before", "Activities"),
-        Idea(7, "Write in a journal", "Express your thoughts and feelings", "Creativity"),
-        Idea(8, "Learn to play an instrument", "Start with basic chords on guitar or piano", "Learning"),
-        Idea(9, "Do a random act of kindness", "Make someone's day better", "Social"),
-        Idea(10, "Learn a magic trick", "Impress your friends with a simple illusion", "Activities")
-    )
+    private val ideaSuggestions = hardcodedIdeas
 
     fun generateRandomIdea() {
         val randomIdea = ideaSuggestions.random()
