@@ -10,6 +10,10 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    plugins {
+        id("com.google.dagger.hilt.android") version "2.52" apply false
+        id("com.google.devtools.ksp") version "2.1.0-1.0.29" apply false
+    }
 }
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
@@ -24,4 +28,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "My Application"
 include(":app")
- 

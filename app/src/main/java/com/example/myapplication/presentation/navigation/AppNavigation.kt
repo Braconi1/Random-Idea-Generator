@@ -7,39 +7,45 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.presentation.uii.screens.about.AboutScreen
-import com.example.myapplication.presentation.uii.screens.detail.IdeaDetailScreen
-import com.example.myapplication.presentation.uii.screens.favorites.FavoritesScreen
-import com.example.myapplication.presentation.uii.screens.home.HomeScreen
-import com.example.myapplication.presentation.uii.screens.idea.IdeaScreen
-import com.example.myapplication.presentation.uii.screens.login.LoginScreen
-import com.example.myapplication.presentation.viewModel.IdeaViewModel
+import com.example.myapplication.presentation.ui.screens.about.AboutScreen
+import com.example.myapplication.presentation.ui.screens.detail.IdeaDetailScreen
+import com.example.myapplication.presentation.ui.screens.favorites.FavoritesScreen
+import com.example.myapplication.presentation.ui.screens.home.HomeScreen
+import com.example.myapplication.presentation.ui.screens.idea.IdeaScreen
+import com.example.myapplication.presentation.ui.screens.login.AccountScreen
+import com.example.myapplication.presentation.ui.screens.login.LoginScreen
+import com.example.myapplication.presentation.ui.screens.login.SignUpScreen
+import com.example.myapplication.presentation.ui.screens.login.WelcomeScreen
+import com.example.myapplication.presentation.viewModel.*
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    val viewModel: IdeaViewModel = viewModel()
+    val loginViewModel: LoginViewModel = hiltViewModel()
 
-    val navLabels = listOf("Home", "Submit", "Favorites", "About", "Login")
+    val navLabels = listOf("Home", "Submit", "Favorites", "About", "Account")
     val navIcons = listOf(
         Icons.Default.Home,
         Icons.Default.Add,
         Icons.Default.Favorite,
         Icons.Default.Info,
-        Icons.Default.Person
+        Icons.Default.AccountCircle
     )
-    val topLevelRoutes = listOf("home", "submit", "favorites", "about", "login")
+    val topLevelRoutes = listOf("home", "submit", "favorites", "about", "account")
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
     val showBottomBar = currentRoute?.startsWith("detail") == false
+            && currentRoute?.startsWith("signup") == false
+            && currentRoute?.startsWith("welcome") == false
+            && currentRoute?.startsWith("login") == false
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -69,46 +75,82 @@ fun AppNavigation() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "home",
+            startDestination = "welcome",
             modifier = Modifier.padding(innerPadding)
         ) {
+            composable("welcome") {
+                WelcomeScreen(
+                    onLoginClick = { navController.navigate("login") },
+                    onSignUpClick = { navController.navigate("signup") }
+                )
+            }
             composable("home") {
+                val viewModel: HomeViewModel = hiltViewModel()
                 HomeScreen(
                     viewModel = viewModel,
                     onIdeaClick = { idea ->
-                        navController.navigate("detail/${idea.id}/${idea.title}")
+                        navController.navigate("detail/${idea.ideaId}")
                     }
                 )
             }
             composable("submit") {
+                val viewModel: SubmitViewModel = hiltViewModel()
                 IdeaScreen(viewModel = viewModel)
             }
             composable("favorites") {
+                val viewModel: FavoritesViewModel = hiltViewModel()
                 FavoritesScreen(
                     viewModel = viewModel,
                     onIdeaClick = { idea ->
-                        navController.navigate("detail/${idea.id}/${idea.title}")
+                        navController.navigate("detail/${idea.ideaId}")
                     }
                 )
             }
             composable("about") {
-                AboutScreen()
+                val viewModel: AboutViewModel = hiltViewModel()
+                AboutScreen(viewModel = viewModel)
             }
-            composable("login") {
-                LoginScreen(
-                    onLoginSuccess = {
-                        navController.navigate("home") {
-                            popUpTo("login") { inclusive = true }
+            composable("account") {
+                AccountScreen(
+                    viewModel = loginViewModel,
+                    onLogout = {
+                        navController.navigate("welcome") {
+                            popUpTo(0) { inclusive = true }
                         }
                     }
                 )
             }
-            composable("detail/{ideaId}/{ideaTitle}") { backStackEntry ->
-                val ideaId = backStackEntry.arguments?.getString("ideaId")?.toIntOrNull() ?: 0
-                val ideaTitle = backStackEntry.arguments?.getString("ideaTitle") ?: ""
+            composable("login") {
+                LoginScreen(
+                    viewModel = loginViewModel,
+                    onLoginSuccess = {
+                        navController.navigate("home") {
+                            popUpTo("welcome") { inclusive = true }
+                        }
+                    },
+                    onSignUp = {
+                        navController.navigate("signup")
+                    }
+                )
+            }
+            composable("signup") {
+                SignUpScreen(
+                    viewModel = loginViewModel,
+                    onSignUpSuccess = {
+                        navController.navigate("home") {
+                            popUpTo("welcome") { inclusive = true }
+                        }
+                    },
+                    onBackToLogin = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+            composable("detail/{ideaId}") { backStackEntry ->
+                val ideaId = backStackEntry.arguments?.getString("ideaId")?.toLongOrNull() ?: 0L
+                val viewModel: DetailViewModel = hiltViewModel()
                 IdeaDetailScreen(
                     ideaId = ideaId,
-                    ideaTitle = ideaTitle,
                     viewModel = viewModel,
                     onBack = { navController.popBackStack() }
                 )
