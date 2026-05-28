@@ -22,6 +22,8 @@ import com.example.myapplication.presentation.ui.screens.login.AccountScreen
 import com.example.myapplication.presentation.ui.screens.login.LoginScreen
 import com.example.myapplication.presentation.ui.screens.login.SignUpScreen
 import com.example.myapplication.presentation.ui.screens.login.WelcomeScreen
+import com.example.myapplication.presentation.ui.screens.network.NetworkScreen
+import com.example.myapplication.presentation.ui.screens.firebase.FirebaseScreen
 import com.example.myapplication.presentation.viewModel.*
 
 @Composable
@@ -29,15 +31,17 @@ fun AppNavigation() {
     val navController = rememberNavController()
     val loginViewModel: LoginViewModel = hiltViewModel()
 
-    val navLabels = listOf("Home", "Submit", "Favorites", "About", "Account")
+    val navLabels = listOf("Home", "Submit", "Favorites", "About", "Account", "Network", "Firebase")
     val navIcons = listOf(
         Icons.Default.Home,
         Icons.Default.Add,
         Icons.Default.Favorite,
         Icons.Default.Info,
-        Icons.Default.AccountCircle
+        Icons.Default.AccountCircle,
+        Icons.Default.Cloud,
+        Icons.Default.Star
     )
-    val topLevelRoutes = listOf("home", "submit", "favorites", "about", "account")
+    val topLevelRoutes = listOf("home", "submit", "favorites", "about", "account", "network", "firebase")
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -154,6 +158,14 @@ fun AppNavigation() {
                     viewModel = viewModel,
                     onBack = { navController.popBackStack() }
                 )
+            }
+            composable("network") {
+                val viewModel: NetworkViewModel = hiltViewModel()
+                NetworkScreen(viewModel = viewModel)
+            }
+            composable("firebase") {
+                val viewModel: FirebaseViewModel = hiltViewModel()
+                FirebaseScreen(viewModel = viewModel)
             }
         }
     }
