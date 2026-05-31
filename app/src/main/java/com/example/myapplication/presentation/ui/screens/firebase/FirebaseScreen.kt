@@ -9,8 +9,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.myapplication.presentation.AppDimensions
 import com.example.myapplication.presentation.viewModel.FirebaseUiState
 import com.example.myapplication.presentation.viewModel.FirebaseViewModel
 
@@ -41,7 +41,7 @@ fun AuthSection(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(AppDimensions.spacingMassive),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -50,7 +50,7 @@ fun AuthSection(
             style = MaterialTheme.typography.headlineMedium
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingMassive))
 
         OutlinedTextField(
             value = email,
@@ -59,7 +59,7 @@ fun AuthSection(
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingM))
 
         OutlinedTextField(
             value = password,
@@ -68,7 +68,7 @@ fun AuthSection(
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingMassive))
 
         if (uiState is FirebaseUiState.Loading) {
             CircularProgressIndicator()
@@ -78,12 +78,14 @@ fun AuthSection(
                     if (isSignUp) viewModel.signUp(email, password)
                     else viewModel.signIn(email, password)
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(AppDimensions.buttonHeight)
             ) {
                 Text(if (isSignUp) "Sign Up" else "Sign In")
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(AppDimensions.spacingM))
 
             TextButton(onClick = { isSignUp = !isSignUp }) {
                 Text(if (isSignUp) "Already have an account? Sign In" else "No account? Sign Up")
@@ -91,7 +93,7 @@ fun AuthSection(
         }
 
         if (uiState is FirebaseUiState.Error) {
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(AppDimensions.spacingM))
             Text(
                 text = (uiState as FirebaseUiState.Error).message,
                 color = MaterialTheme.colorScheme.error
@@ -113,7 +115,7 @@ fun IdeasSection(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(AppDimensions.contentPadding)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -126,7 +128,7 @@ fun IdeasSection(
             }
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingM))
 
         OutlinedTextField(
             value = title,
@@ -135,7 +137,7 @@ fun IdeasSection(
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingM))
 
         OutlinedTextField(
             value = description,
@@ -144,7 +146,7 @@ fun IdeasSection(
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingM))
 
         OutlinedTextField(
             value = category,
@@ -153,7 +155,7 @@ fun IdeasSection(
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingM))
 
         Button(
             onClick = {
@@ -164,7 +166,9 @@ fun IdeasSection(
                     category = ""
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(AppDimensions.buttonHeight)
         ) {
             Text("Save to Cloud")
         }
@@ -176,15 +180,15 @@ fun IdeasSection(
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(AppDimensions.spacingXXXL))
 
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(AppDimensions.spacingM)) {
             items(ideas) { idea ->
                 Card(modifier = Modifier.fillMaxWidth()) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(12.dp),
+                            .padding(AppDimensions.cardPadding),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
